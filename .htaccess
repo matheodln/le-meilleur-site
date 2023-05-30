@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule (.*) programmation/$1 [L]
