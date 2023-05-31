@@ -4,7 +4,6 @@ define('BASE', dirname(PROGRAMMATION));
 define('RACINE', BASE.DIRECTORY_SEPARATOR.'racine');
 define('BASE_URL', dirname(dirname($_SERVER['SCRIPT_NAME'])));
 
-echo BASE_URL;
-
-?>
+require RACINE.DIRECTORY_SEPARATOR.'includes.php';
+new Dispatcher();
 
