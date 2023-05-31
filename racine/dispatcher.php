@@ -5,12 +5,12 @@ class Dispatcher{
         $this->request = new Request();
         Routeur::parse($this->request->url, $this->request);
         $controller = $this->loadController();
-        $controller->view();
+        call_user_func_array(array($controller, $this->request->action),$this->request->params);
     }
 
     function loadController(){
         $name = ucfirst($this->request->controller).'Controller';
-        $file = BASE.DIRECTORY_SEPARATOR.'Controller'.DIRECTORY_SEPARATOR.$name.'.php';
+        $file = BASE.DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.$name.'.php';
         require $file;
         return new $name($this->request);
     }
