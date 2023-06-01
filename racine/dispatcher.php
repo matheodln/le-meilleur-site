@@ -5,7 +5,20 @@ class Dispatcher{
         $this->request = new Request();
         Routeur::parse($this->request->url, $this->request);
         $controller = $this->loadController();
+        if(!in_array($this->request->action,get_class_methods($controller))){
+            $this->error('Le controller '.$this->request->controller.' n\'a pas de méthode '.$this->request->action);
+        }
         call_user_func_array(array($controller, $this->request->action),$this->request->params);
+        $controller->render($this->request->action, 'default');
+    }
+
+    function error($message){ //Gestions des erreurs
+        header("HTTP/1.0 404 Not Found");
+        $controller = new Controller($this->request);
+        $controller->set('message', $message);
+        $controller->render('/errors/404', 'default');
+        die();
+
     }
 
     function loadController(){
