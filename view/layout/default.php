@@ -18,19 +18,22 @@
         /*  HEADER */
         .presentation {
             display: flex;
+            justify-content: space-between; /* Répartit les éléments sur la ligne */
             align-items: center; /* Aligne les éléments verticalement au centre */
             background-color: #efdcbf;
         }
 
-        .presentation Logo {
-            margin-left: 100px; /* Ajoute un espace à gauche de l'image */
+        .logo {
+            margin-right: 20px; /* Pousse le logo à droite */
+            padding-left: 10px;
         }
-        .presentation Menu Defillant {
-            margin-right: 100px; /* Ajoute un espace à droite de l'image */
+
+        .menu-defilant {
+            width: 150px;
         }
         #header h1 {
             padding-top: 10px; /*descendre le titre*/
-            padding-bottom: 10px; /* Ajouter un espace en bas du div */
+            padding-bottom: 10px; /* Ajoute un espace */
             font-size: 80px;
             text-align: center;
             font-family: "Bodoni MT", sans-serif;
@@ -39,6 +42,9 @@
         /*  NAV */
 
         /*  SECTION  */
+        #section {
+            min-height: 400px;
+        }
         .promo {
             font-size: 25px;
             text-align: center;
@@ -55,42 +61,19 @@
 
         /* FOOTER */
         #footer {
-            text-align: center;
+            text-align: left;
             background-color: #2c5545;
-            padding-top: 10px;
-            padding-bottom: 2px;
+            padding-top: 40px;
+            padding-bottom: 10px;
+            padding-left: 40px; /* Ajustez la valeur selon votre préférence */
             font-size: 12px;
-            position: fixed;
+            position: absolute;
             bottom: 0;
             right: 0;
             left: 0;
         }
-        .column {
-            width: 33.33%;
-            vertical-align: top;
-        }
-
-        .column ul {
-            padding: 0;
-            margin: 0;
-        }
-
-        .column li {
-            margin-bottom: 5px;
-        }
-        .colonne1{
+        #footer tr {
             color: white;
-        }
-        .colonne2{
-            color: white;
-        }
-        .colonne3{
-            color: white;
-        }
-        .colonne4{
-            font-size:14px;
-            color: black;
-            font-weight: bold;
         }
     </style>
 </head>
