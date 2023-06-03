@@ -2,20 +2,37 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MAMA ROMA</title>
+    <meta name="" content="width=device-width, initial-scale=1">
+    <title>Accueil MAMA ROMA</title>
 
     <!-- Chargement de Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Chargement fichier CSS -->
-    <link rel="stylesheet" href="styles.css">
-
     <!-- CSS Partie -->
     <style>
 
         /*  HEADER */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1;
+            display: none;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px 16px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
         .presentation {
             display: flex;
             justify-content: space-between; /* Répartit les éléments sur la ligne */
@@ -61,19 +78,15 @@
 
         /* FOOTER */
         #footer {
-            text-align: left;
-            background-color: #2c5545;
-            padding-top: 40px;
-            padding-bottom: 10px;
-            padding-left: 40px; /* Ajustez la valeur selon votre préférence */
-            font-size: 12px;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            left: 0;
+            background-color: #2C5545;
+            padding-top: 20px;
+            font-size: 10px;
+            padding-left: 15px;
         }
-        #footer tr {
-            color: white;
+
+        #footer a {
+            color: whitesmoke;
+            text-decoration: none;
         }
     </style>
 </head>
