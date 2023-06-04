@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="" content="width=device-width, initial-scale=1">
-    <title>Accueil MAMA ROMA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MAMA ROMA</title>
 
     <!-- Chargement de Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,72 +11,86 @@
 
     <!-- CSS Partie -->
     <style>
-
-        /*  HEADER */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            z-index: 1;
-            display: none;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            padding: 12px 16px;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .presentation {
-            display: flex;
-            justify-content: space-between; /* Répartit les éléments sur la ligne */
-            align-items: center; /* Aligne les éléments verticalement au centre */
+        /* HEADER */
+        #header {
             background-color: #efdcbf;
+            min-height: 70px;
         }
 
-        .logo {
-            margin-right: 20px; /* Pousse le logo à droite */
-            padding-left: 10px;
+        .Barre_outils {
+            text-align: center;
         }
 
-        .menu-defilant {
-            width: 150px;
-        }
-        #header h1 {
-            padding-top: 10px; /*descendre le titre*/
-            padding-bottom: 10px; /* Ajoute un espace */
-            font-size: 80px;
+        .title {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 30px;
             text-align: center;
             font-family: "Bodoni MT", sans-serif;
         }
 
-        /*  NAV */
-
-        /*  SECTION  */
+        /* SECTION */
         #section {
-            min-height: 400px;
-        }
-        .promo {
-            font-size: 25px;
-            text-align: center;
-            background-color: #f4e7d3;
-            font-family: "Courier New", sans-serif;
-            padding-top: 10px; /*descendre le titre*/
-            padding-bottom: 1px; /* Spécifiez la hauteur minimale souhaitée */
-        }
-
-        .galerie {
             display: flex;
             justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url("<?php echo IMAGE_URL.'arriere_plan.png' ?>");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* FOOTER */
+        .white-square {
+            width: 800px;
+            height: 450px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 5px;
+            border-radius: 15px;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #2c5545;
+            box-sizing: border-box;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: justify;
+        }
+        .scrollable-content {
+            max-height: 300px;
+            overflow: auto;
+            padding: 0;
+        }
+
+        .green-square {
+            width: 250px;
+            height: 80px;
+            background-color: #2c5545;
+            display: flex;
+            justify-content: center;
+            position: center;
+            align-items: center;
+            margin-top: 80px;
+            margin-left: 20px;
+            border-radius: 5px;
+            transition: color 0.3s;
+        }
+
+        .green-square a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            position: center;
+
+        }
+        .green-square a:hover {
+            color: white;
+        }
+        .image{
+            padding-left: 300px;
+        }
         #footer {
             background-color: #2C5545;
             padding-top: 20px;

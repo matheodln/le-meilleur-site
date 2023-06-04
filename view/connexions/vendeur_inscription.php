@@ -1,34 +1,46 @@
+<div class="white-square">
     <div class="container">
-        <div class="box" id="create-account-btn">
-            <h2>Créer un compte</h2>
-        </div>
+        <a href="<?php echo BASE_URL.'/voyageur/connexions/inscription' ?>">
+            <div class="box">
+                <h2>Créer un compte</h2>
+            </div>
+        </a>
         <div class="line"></div>
-        <div class="box" id="login-btn">
-            <h2>Se connecter</h2>
-        </div>
+        <a href="<?php echo BASE_URL.'/connexions/connexion' ?>">
+            <div class="box2">
+                <h2>Se connecter</h2>
+            </div>
+        </a>
     </div>
     <div class="horizontal-line-top"></div>
     <div class="horizontal-line"></div>
-    <div class="create-account-form" id="create-account-form">
-        <div class="select">
-            <select style="background-color: white;">
-                <option value="">-- Sélectionner --</option>
-                <option value="Vendeur">Vendeur</option>
-                <option value="Acheteur">Acheteur</option>
-            </select>
+
+    <!-- Cases d'insertion pour l'utilisateur -->
+    <div class="form-container">
+        <div class="container2">
+            <a href="<?php echo BASE_URL.'/marchand/connexions/inscription' ?>">
+                <div class="small-box"></div>
+            </a>
+            <span class="case-label">vendeur</span>
+            <a href="<?php echo BASE_URL.'/voyageur/connexions/inscription' ?>">
+                <div class="small-box2"></div>
+            </a>
+            <span class="case-label">acheteur</span>
         </div>
-        <input type="text" placeholder="Nom">
-        <input type="text" placeholder="Prénom">
-        <input type="text" placeholder="Pseudo">
-        <input type="text" placeholder="Adresse e-mail">
-        <input type="text" placeholder="Pays">
-        <input type="text" placeholder="Ville">
-        <input type="text" placeholder="Adresse">
-        <input type="number" placeholder="Code postal">
-        <input type="tel" placeholder="Numéro de téléphone">
-        <form>
-            <input type="file" id="image-input" accept="image/*">
+        <form action="<?php echo BASE_URL.'/marchand/connexions/inscription' ?>" method="post">
+            <input type="text" placeholder="Nom" class="input-field" name="Nom">
+            <input type="text" placeholder="Prénom" class="input-field" name="Prenom">
+            <input type="text" placeholder="Pseudo" class="input-field" name="Pseudo">
+            <input type="email" placeholder="Adresse mail" class="input-field" name="Mail">
+            <p class="photo-label">Photo de profil :</p>
+            <input type="text" placeholder="Télécharger une photo" class="input-field" name="Photo">
+            <p class="photo-label">Arrière plan :</p>
+            <input type="text" placeholder="Télécharger une photo" class="input-field" name="Image_Fond">
+            <input type="password" placeholder="Mot de passe" class="input-field" name="MDP">
+            <div class="actions">
+                <input type="submit" class="submit-button" value="Se connecter">
+            </div>
         </form>
-        <input type="password" placeholder="Mot de passe">
-        <a href="#" id="sInscrire" class="btn-link">S'inscrire</a>
+        <?php echo $this->Session->flash(); ?>
     </div>
+</div>

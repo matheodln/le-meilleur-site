@@ -1,4 +1,5 @@
 <?php
+require 'Session.php';
 require 'Routeur.php';
 require BASE . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'Conf.php';
 

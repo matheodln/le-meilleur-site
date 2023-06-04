@@ -76,7 +76,46 @@ class Model{
         return current($this->find($req));
     }
 
-    public function findCount($condition, $primaryKey){
-        $this->find(array('fields'=>'COUNT('.$primaryKey.')', 'conditions' => $condition));
+    public function findCount($primaryKey){
+        return $this->find(array('fields'=>'COUNT('.$primaryKey.')'));
+
+    }
+    public function delete($primaryKeyValue, $primaryKeyName){
+        $this->bdd->query('USE mamaroma_base');
+        $sql = "DELETE FROM ($this->table) WHERE ($primaryKeyName) = $primaryKeyValue";
+        $this->bdd->query($sql);
+    }
+    public function save($data, $primaryKeyName){
+        //Assure d'utiliser la bonne bdd:
+        $this->bdd->query('USE mamaroma_base');
+        $fields = array();
+        $d = array();
+        foreach($data as $k=>$v){
+            $fields[] = "$k=:$k";
+            $d[":$k"] = $v;
+        }
+        if(isset($data->$primaryKeyName) && !empty($data->$primaryKeyName)){
+            $sql = 'UPDATE '.$this->table.' SET '.implode(',',$fields).' WHERE '.$primaryKeyName.'=:'.$primaryKeyName;
+        }
+        $pre = $this->bdd->prepare($sql);
+        $pre->execute($d);
+        return true;
+    }
+    public function insert($data){
+        $this->bdd->query('USE mamaroma_base');
+        $fields = array();
+        $placeholders = array();
+        $values = array();
+
+        foreach($data as $k => $v){
+            $fields[] = $k;
+            $placeholders[] = ":$k";
+            $values[":$k"] = $v;
+        }
+
+        $sql = "INSERT INTO ".$this->table." (".implode(',', $fields).") VALUES (".implode(',', $placeholders).")";
+        $pre = $this->bdd->prepare($sql);
+        $pre->execute($values);
+        return true;
     }
 }
