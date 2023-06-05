@@ -25,7 +25,8 @@
             <div class="col-12">
                 <div class="carre_menu_compte_pseudo_theme">
                     <div class="circle_theme"></div>
-                    <div class="bonjour_theme"><h6>Bonjour, </h6></div>
+                    <div class="bonjour_theme"><h6>Bonjour, <?php echo $pseudo?></h6></div>
+                    <img src="<?php echo IMAGE_URL.$user->Photo; ?>" alt="photo ID" style="width: 80px" class="info_pdp">
                 </div>
                 <div class="carre_menu_compte_informations_theme">
                     <div class="photo_repertoire"><img src="<?php echo IMAGE_URL.'repertoire.png'; ?>" alt="repertoire contact" style="width: 80px;"></div>

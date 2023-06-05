@@ -25,7 +25,8 @@
             <div class="col-12">
                 <div class="carre_menu_compte_pseudo_info">
                     <div class="circle_info"></div>
-                    <div class="bonjour_info"><h6>Bonjour, </h6></div>
+                    <div class="bonjour_info"><h6>Bonjour, <?php echo $pseudo?></h6></div>
+                    <img src="<?php echo IMAGE_URL.$user->Photo; ?>" alt="photo ID" style="width: 80px" class="info_pdp">
                 </div>
                 <div class="carre_menu_compte_informations_info">
                     <div class="photo_repertoire"><img src="<?php echo IMAGE_URL.'repertoire.png'; ?>" alt="repertoire contact" style="width: 80px;"></div>
@@ -59,7 +60,7 @@
         <div class="photo_repertoire"><img src="<?php echo IMAGE_URL.'repertoire.png'; ?>" alt="repertoire contact" style="width: 100px;"></div>
         <div class="texte1_dev_info"><h3>MES INFORMATIONS</h3></div>
         <div class="texte2_dev_info"><p>N'hésitez pas à modifier vos coordonnées ci-dessous pour que votre compte MAMA ROMA soit parfaitement à jour. </p></div>
-        <form>
+        <form action="<?php echo BASE_URL.'/marchand/comptes/compte_informations/'.$pseudo ?>" method="post">
             <div class="container">
                 <div class="row row1_info">
                     <div class="col-6 nom"><h6>Nom :</h6></div>
@@ -68,12 +69,12 @@
                 <div class="row row2_info">
                     <div class="col-6 saisie-nom_info">
                         <div class="carre-saisie_info">
-                            <textarea class="form-control_info" rows="3" placeholder="Saisissez votre nouveau nom"></textarea>
+                            <textarea class="form-control_info" rows="3" placeholder="<?php echo $user->Nom; ?>" name="Nom"></textarea>
                         </div>
                     </div>
                     <div class="col-6 saisie-prenom_info">
                         <div class="carre-saisie_info">
-                            <textarea class="form-control_info" rows="3" placeholder="Saisissez votre nouveau prénom"></textarea>
+                            <textarea class="form-control_info" rows="3" placeholder="<?php echo $user->Prenom; ?>" name="Prenom"></textarea>
                         </div>
                     </div>
                 </div>
@@ -84,17 +85,18 @@
                 <div class="row row2_info">
                     <div class="col-6 saisie-pseudo_info">
                         <div class="carre-saisie_info">
-                            <textarea class="form-control_info" rows="3" placeholder="Saisissez votre nouveau pseudo"></textarea>
+                            <textarea class="form-control_info" rows="3" placeholder="<?php echo $user->Pseudo; ?>" name="Pseudo"></textarea>
                         </div>
                     </div>
                     <div class="col-6 saisie-courriel_info">
                         <div class="carre-saisie_info">
-                            <textarea class="form-control_info" rows="3" placeholder="Saisissez votre nouveau courriel"></textarea>
+                            <textarea class="form-control_info" rows="3" placeholder="<?php echo $user->Mail; ?>" name="Courriel"></textarea>
                         </div>
                     </div>
                 </div>
                 <input type="submit" value="Mettre à jour" class="custom-button_info">
             </div>
         </form>
+        <?php echo $this->Session->flash(); ?>
     </div>
 </div>

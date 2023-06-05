@@ -82,8 +82,9 @@ class Model{
     }
     public function delete($primaryKeyValue, $primaryKeyName){
         $this->bdd->query('USE mamaroma_base');
-        $sql = "DELETE FROM ($this->table) WHERE ($primaryKeyName) = $primaryKeyValue";
-        $this->bdd->query($sql);
+        $sql = "DELETE FROM {$this->table} WHERE {$primaryKeyName} = :primaryKeyValue";
+        $pre = $this->bdd->prepare($sql);
+        $pre->execute(array(':primaryKeyValue' => $primaryKeyValue));
     }
     public function save($data, $primaryKeyName){
         //Assure d'utiliser la bonne bdd:
@@ -94,9 +95,7 @@ class Model{
             $fields[] = "$k=:$k";
             $d[":$k"] = $v;
         }
-        if(isset($data->$primaryKeyName) && !empty($data->$primaryKeyName)){
-            $sql = 'UPDATE '.$this->table.' SET '.implode(',',$fields).' WHERE '.$primaryKeyName.'=:'.$primaryKeyName;
-        }
+        $sql = 'UPDATE '.$this->table.' SET '.implode(',',$fields).' WHERE '.$primaryKeyName.'=:'.$primaryKeyName;
         $pre = $this->bdd->prepare($sql);
         $pre->execute($d);
         return true;
@@ -116,6 +115,7 @@ class Model{
         $sql = "INSERT INTO ".$this->table." (".implode(',', $fields).") VALUES (".implode(',', $placeholders).")";
         $pre = $this->bdd->prepare($sql);
         $pre->execute($values);
-        return true;
+
+        return True;
     }
 }

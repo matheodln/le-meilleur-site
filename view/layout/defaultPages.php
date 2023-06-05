@@ -13,70 +13,87 @@
     <style>
 
         /*  HEADER */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            z-index: 1;
-            display: none;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            padding: 12px 16px;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
         .presentation {
             display: flex;
-            justify-content: space-between; /* Répartit les éléments sur la ligne */
-            align-items: center; /* Aligne les éléments verticalement au centre */
+            justify-content: space-between;
+            align-items: center;
             background-color: #efdcbf;
         }
 
         .logo {
-            margin-right: 20px; /* Pousse le logo à droite */
+            margin-right: 20px;
             padding-left: 10px;
         }
 
         .menu-defilant {
             width: 150px;
         }
+
         #header h1 {
-            padding-top: 10px; /*descendre le titre*/
-            padding-bottom: 10px; /* Ajoute un espace */
+            padding-top: 10px;
+            padding-bottom: 10px;
             font-size: 80px;
             text-align: center;
             font-family: "Bodoni MT", sans-serif;
+            color: black;
+            text-decoration: none;
         }
 
         /*  NAV */
 
         /*  SECTION  */
+        /* SECTION */
         #section {
             min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
+        .galerie .img-fluid {
+            max-width: 100%;
+            max-height: 100%;
+            margin: 0 auto;
+            display: block;
+        }
+
+
         .promo {
             font-size: 25px;
             text-align: center;
             background-color: #f4e7d3;
             font-family: "Courier New", sans-serif;
-            padding-top: 10px; /*descendre le titre*/
-            padding-bottom: 1px; /* Spécifiez la hauteur minimale souhaitée */
+            padding-top: 10px;
+            padding-bottom: 1px;
+            color: black;
+            text-decoration: none;
         }
 
         .galerie {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
+            overflow: hidden;
         }
 
-        /* FOOTER */
+        .galerie img {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            animation: defilement 10s linear infinite;
+        }
+
+        @keyframes defilement {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
         #footer {
             background-color: #2C5545;
             padding-top: 20px;

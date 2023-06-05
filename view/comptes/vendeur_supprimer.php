@@ -19,57 +19,34 @@
     </nav>
 </div>
 <div id="section_2">
-    <div class="case_article">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="box_article_supprimer">
-                        <figure>
-                            <img src="<?php echo IMAGE_URL.'amphore.png'; ?>" alt="Image 1" class="article_supprimer_vendeur" style="width: 100%";>
-                            <figcaption>Description de l'image</figcaption>
-                        </figure>
-                        <img src="<?php echo IMAGE_URL.'croix.png'; ?>" alt="Image 1" class="croix_supprimer">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="box_article_supprimer">
-                        <figure>
-                            <img src="<?php echo IMAGE_URL.'amphore.png'; ?>" alt="Image 1" class="article_supprimer_vendeur" style="width: 100%";>
-                            <figcaption>Description de l'image</figcaption>
-                        </figure>
-                        <img src="<?php echo IMAGE_URL.'croix.png'; ?>" alt="Image 1" class="croix_supprimer">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="box_article_supprimer">
-                        <figure>
-                            <img src="<?php echo IMAGE_URL.'amphore.png'; ?>" alt="Image 1" class="article_supprimer_vendeur" style="width: 100%";>
-                            <figcaption>Description de l'image</figcaption>
-                        </figure>
-                        <img src="<?php echo IMAGE_URL.'croix.png'; ?>" alt="Image 1" class="croix_supprimer">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="box_article_supprimer">
-                        <figure>
-                            <img src="<?php echo IMAGE_URL.'amphore.png'; ?>" alt="Image 1" class="article_supprimer_vendeur" style="width: 100%";>
-                            <figcaption>Description de l'image</figcaption>
-                        </figure>
-                        <img src="<?php echo IMAGE_URL.'croix.png'; ?>" alt="Image 1" class="croix_supprimer">
-                    </div>
-                </div>
+        <h2>Vos articles: </h2>
+        <div class="container vendreArticle">
+            <div class="texte_article_supprimer">
+                <p>
+                    <?php foreach ($item_vendeur as $k => $v): ?>
+                        <?php echo 'Nom de l\'objet: '.$v->Nom.', Date de publication: '.$v->Date_Publication.', Quantité initial: '.$v->Quantite_initial.', Quantite_actuel: '.$v->Quantite_actuel.', reference: '.$v->Nom; ?><br>
+                    <?php endforeach;?>
+                </p>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="box_article_supprimer">
-                        <figure>
-                            <img src="<?php echo IMAGE_URL.'amphore.png'; ?>" alt="Image 1" class="article_supprimer_vendeur" style="width: 100%";>
-                            <figcaption>Description de l'image</figcaption>
-                        </figure>
-                        <img src="<?php echo IMAGE_URL.'croix.png'; ?>" alt="Image 1" class="croix_supprimer">
+            <form action="<?php echo BASE_URL.'/marchand/comptes/supprimer/'.$pseudo ?>" method="post">
+                <div class="row publier_article_supprimer">
+                    <div class="col-4 nom">Référence :</div>
+                    <div class="col-4 mdp">Mot de passe :</div>
+                </div>
+                <div class="row publier_article_supprimer">
+                    <div class="col-4 saisie-nom">
+                        <div class="carre-saisie_supprimer">
+                            <textarea class="form-control_supprimer" rows="3" placeholder="Saisissez la référence de l'article" name="reference"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-4 saisie-mdp">
+                        <div class="carre-saisie_supprimer">
+                            <textarea class="form-control_supprimer" rows="3" placeholder="Saisissez votre mot de passe" name="mdp"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <input type="submit" value="Supprimer" class="custom-button_supprimer">
+            </form>
+            <?php echo $this->Session->flash(); ?>
         </div>
-    </div>
 </div>
