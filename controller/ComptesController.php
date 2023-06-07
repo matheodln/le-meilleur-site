@@ -96,14 +96,7 @@ class ComptesController extends Controller{
         $pseudo = $tab[0];
         $imgItem = $tab[1];
         $this->set('pseudo', $pseudo);
-
-    }
-    function acheteur_Item_achat_immediat($pseudo_item){
-        //Recuperation des données nécessaires depuis l'url
-        $tab = explode(",",$pseudo_item);
-        $pseudo = $tab[0];
-        $imgItem = $tab[1];
-        $this->set('pseudo', $pseudo);
+        $this->set('imgItem', $imgItem);
         $this->loadModel('Item');
         $this->loadModel('Photo_Item');
         //Récupération des données et des images de l'item
@@ -119,9 +112,182 @@ class ComptesController extends Controller{
         ));
         $this->set('item', $item);
         $this->set('photosItem', $photosItem);
+        $nouveau_prix = isset($_POST["nouveau_prix"])? $_POST["nouveau_prix"] : "";
+        if($nouveau_prix!= "" && $nouveau_prix != "0" && $nouveau_prix != 0){
+            $nouveau_prix = intval($nouveau_prix);
+            $this->loadModel('Negociation');
+            $check = $this->Negociation->findFirst(array(
+                'conditions' => array(
+                    'Pseudo_Acheteur' => $pseudo,
+                    'Id_Item' => $item->Nom,
+                )
+            ));
+            $this->Negociation->insert(array(
+                'Pseudo_Acheteur' => $pseudo,
+                'Pseudo_Vendeur' => $item->Pseudo_Vendeur,
+                'Id_Item' => $item->Nom,
+                'Nouveau_Prix' => $nouveau_prix
+            ));
+            if(empty($check)){
+                $this->Session->setFlash("Article correctement ajouté au panier", "success");
+            }
+            else{
+                $this->Session->setFlash("Article déjà présent dans votre panier");
+            }
+        }
+    }
+    function acheteur_Item_achat_immediat($pseudo_item){
+        //Recuperation des données nécessaires depuis l'url
+        $tab = explode(",",$pseudo_item);
+        $pseudo = $tab[0];
+        $imgItem = $tab[1];
+        $this->set('pseudo', $pseudo);
+        $this->set('imgItem', $imgItem);
+        $this->loadModel('Item');
+        $this->loadModel('Photo_Item');
+        //Récupération des données et des images de l'item
+        $item = $this->Item->findFirst(array(
+            'conditions' => array(
+                'Photo' => $imgItem
+            )
+        ));
+        $photosItem = $this->Photo_Item->find(array(
+            'conditions' => array(
+                'Id_Item' => $item->Nom
+            )
+        ));
+        $this->set('item', $item);
+        $this->set('photosItem', $photosItem);
+        //Gestion de l'ajout au panier:
+        $Quantite = isset($_POST["Quantite"])? $_POST["Quantite"] : "";
+        if($Quantite != "" && $Quantite != "0" && $Quantite != 0){
+            $Quantite = intval($Quantite);
+            $this->loadModel('Achat_Immediat');
+            $check = $this->Achat_Immediat->findFirst(array(
+                'conditions' => array(
+                    'Pseudo_Acheteur' => $pseudo,
+                    'Id_Item' => $item->Nom,
+                )
+            ));
+            if(empty($check)){
+                $this->Achat_Immediat->insert(array(
+                    'Pseudo_Acheteur' => $pseudo,
+                    'Id_Item' => $item->Nom,
+                    'Quantite' => $Quantite
+                ));
+                $this->Session->setFlash("Article correctement ajouté au panier", "success");
+            }
+            else{
+                $this->Session->setFlash("Article déjà présent dans votre panier");
+            }
+        }
     }
     function acheteur_panier($pseudo){
         $this->set('pseudo', $pseudo);
+        $this->loadModel('Achat_Immediat');
+        $this->loadModel('Item');
+        $achat_immediat = $this->Achat_Immediat->find(array(
+            'conditions' => array(
+                'Pseudo_Acheteur' => $pseudo
+            )
+        ));
+        $items = array();
+        $i = 0;
+        $total = 0;
+        foreach($achat_immediat as $k => $v){
+            $items[$i] = $this->Item->findFirst(array(
+                'conditions' => array(
+                    'Nom' => $v->Id_Item
+                )
+            ));
+            $total += $items[$i]->Prix * $v->Quantite;
+            $i++;
+        }
+        $this->loadModel('Acheteur');
+        $acheteur = $this->Acheteur->findFirst(array(
+            'conditions' => array(
+                'Pseudo' => $pseudo
+            )
+        ));
+        $this->loadModel('Paiement');
+        $paiements = $this->Paiement->find(array(
+            'conditions' => array(
+                'Pseudo_Acheteur' => $pseudo
+            )
+        ));
+        $this->loadModel('Negociation');
+        $negociations = $this->Negociation->find(array(
+            'conditions' => array(
+                'Pseudo_Acheteur' => $pseudo
+            )
+        ));
+        $items_nego = array();
+        $i = 0;
+        foreach($negociations as $k => $v){
+            $items_nego[$i] = $this->Item->findFirst(array(
+                'conditions' => array(
+                    'Nom' => $v->Id_Item
+                )
+            ));
+            $i++;
+        }
+        //Toutes les variables utiles pour l'affichage
+        $this->set('total', $total);
+        $this->set('achat_immediat', $achat_immediat);
+        $this->set('negociations', $negociations);
+        $this->set('items', $items);
+        $this->set('items_nego', $items_nego);
+        $this->set('acheteur', $acheteur);
+        $this->set('paiements', $paiements);
+
+        //Recuperation des variables du formulaire:
+        $paiement = isset($_POST["paiement"])? $_POST["paiement"] : "";
+        if($paiement != ""){
+            $carte = $this->Paiement->findFirst(array(
+                'conditions' => array(
+                    'Numero_Carte' => $paiement
+                )
+            ));
+            $i=0;
+            foreach ($achat_immediat as $k => $v){
+                $variable = isset($_POST[strval($i)])? $_POST[strval($i)] : "";
+                if($variable == "supprimer"){
+                    $r = $this->Achat_Immediat->delete($v->Id, 'Id');
+                }
+                if($variable == "acheter"){
+                    if($items[$i]->Prix*$v->Quantite < $carte->Solde){
+                        $this->Session->setFlash('Paiement accepté', "success");
+                        $this->Paiement->save(array(
+                            'Numero_Carte' => $carte->Numero_Carte,
+                            'Type' => $carte->Type,
+                            'Nom_Proprietaire' => $carte->Nom_Proprietaire,
+                            'Code_Secu' => $carte->Code_Secu,
+                            'Pseudo_Acheteur' => $carte->Pseudo_Acheteur,
+                            'Solde' => $carte->Solde - $items[$i]->Prix*$v->Quantite
+                        ), 'Numero_Carte');
+                        $this->Item->save(array(
+                            'Nom' => $items[$i]->Nom,
+                            'Description' => $items[$i]->Description,
+                            'Date_Publication' => $items[$i]->Date_Publication,
+                            'Prix' => $items[$i]->Prix,
+                            'Categorie' => $items[$i]->Categorie,
+                            'Quantite_actuel' => $items[$i]->Quantite_actuel - $v->Quantite,
+                            'Quantite_initial' => $items[$i]->Quantite_initial,
+                            'Pseudo_Vendeur' => $items[$i]->Pseudo_Vendeur,
+                            'Video' => $items[$i]->Video,
+                        ), 'Nom');
+                        $r = $this->Achat_Immediat->delete($v->Id, 'Id');
+                    }
+                    else{
+                        $this->Session->setFlash('Un des paiements a été refusé');
+                    }
+                }
+                $i++;
+            }
+        }
+        else{
+            $this->Session->setFlash('Veuillez rentrer votre mode de paiement, si vous en avez pas n\'oubliez pas d\'en ajouter un depuis votre compte');
+        }
 
     }
     function acheteur_compte_informations($pseudo){
@@ -209,6 +375,31 @@ class ComptesController extends Controller{
             )
         ));
         $this->set('user', $user);
+        $nom = isset($_POST["nom"])? $_POST["nom"] : "";
+        $carte = isset($_POST["carte"])? $_POST["carte"] : "";
+        $numcarte = isset($_POST["numcarte"])? $_POST["numcarte"] : "";
+        $cvv = isset($_POST["cvv"])? $_POST["cvv"] : "";
+        $solde = isset($_POST["solde"])? $_POST["solde"] : "";
+        $this->loadModel('Paiement');
+        $test = $this->Paiement->findFirst(array(
+            'conditions' => array(
+                'Numero_Carte' => $numcarte,
+            )
+        ));
+        if(($nom != "" && $carte != "" && $numcarte != "" && $cvv != "" && $solde != "") && empty($test)){
+            $r = $this->Paiement->insert(array(
+                'Numero_Carte' => $numcarte,
+                'Type' => $carte,
+                'Nom_Proprietaire' => $nom,
+                'Code_Secu' => $cvv,
+                'Pseudo_Acheteur' => $pseudo,
+                'Solde' => $solde
+            ));
+            $this->Session->setFlash('Carte correctement ajoutée', "success");
+        }
+        else if(($nom != "" && $carte != "" && $numcarte != "" && $cvv != "" && $solde != "") && !empty($test)){
+            $this->Session->setFlash('Carte déjà existante.');
+        }
     }
     function acheteur_compte_aide($pseudo){
         $this->set('pseudo', $pseudo);
@@ -420,22 +611,83 @@ class ComptesController extends Controller{
         ));
         $this->set('user', $user);
     }
-    function admin_accueil($pseudo){
-        $this->set('pseudo', $pseudo);
-    }
     function admin_compte_informations($pseudo){
         $this->set('pseudo', $pseudo);
+        $this->loadModel('Administrateur');
+        $user = $this->Administrateur->findFirst(array(
+            'conditions'=> array(
+                'Pseudo' => $pseudo
+            )
+        ));
+        $this->set('user', $user);
     }
     function admin_compte_theme($pseudo){
         $this->set('pseudo', $pseudo);
+        $this->loadModel('Administrateur');
+        $user = $this->Administrateur->findFirst(array(
+            'conditions'=> array(
+                'Pseudo' => $pseudo
+            )
+        ));
+        $this->set('user', $user);
     }
     function admin_compte_mdp($pseudo){
         $this->set('pseudo', $pseudo);
+        $this->loadModel('Administrateur');
+        $user = $this->Administrateur->findFirst(array(
+            'conditions'=> array(
+                'Pseudo' => $pseudo
+            )
+        ));
+        $this->set('user', $user);
     }
     function admin_gerer_vendeurs($pseudo){
         $this->set('pseudo', $pseudo);
+        $this->loadModel('Vendeur');
+        $vendeurs = $this->Vendeur->find(array());
+        $this->set('vendeurs', $vendeurs);
+        $option = isset($_POST["option"])? $_POST["option"] : "";
+        $id = isset($_POST["id"])? $_POST["id"] : "";
+        $mdp = isset($_POST["mdp"])? $_POST["mdp"] : "";
+        if ($option != "" && $id != "" && $mdp != ""){
+            $this->loadModel('Administrateur');
+            $check = $this->Administrateur->findFirst(array(
+                'conditions' => array(
+                    'Pseudo' => $pseudo,
+                    'MDP' => $mdp
+                )
+            ));
+            $checkV = $this->Vendeur->findFirst(array(
+                'conditions' => array(
+                    'Pseudo' => $id
+                )
+            ));
+            if($option == "supprimer" && !empty($check) && !empty($checkV)){
+                $r = $this->Vendeur->delete($id, 'Pseudo');
+                $this->Session->setFlash("Suppression effectuée", "success");
+            }
+            else if($option == "ajouter" && !empty($check) && !empty($checkV)){
+                $r = $this->Vendeur->save(array(
+                    'Pseudo' => $id,
+                    'Nom' => $checkV->Nom,
+                    'Prenom' => $checkV->Prenom,
+                    'Mail' => $checkV->Mail,
+                    'Photo' => $checkV->Photo,
+                    'Image_Fond' => $checkV->Image_Fond,
+                    'MDP' => $checkV->MDP,
+                    'Validation' => true,
+                ), 'Pseudo');
+                $this->Session->setFlash("Ajout effectuée", "success");
+            }
+            else{
+                $this->Session->setFlash("Mauvais mot de passe ou id inexistant");
+            }
+        }
     }
     function admin_gerer_articles($pseudo){
         $this->set('pseudo', $pseudo);
+        $this->loadModel('Item');
+        $items = $this->Item->find(array());
+        $this->set('items', $items);
     }
 }

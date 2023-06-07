@@ -36,10 +36,9 @@
                 <div class="section-column_zoom_article_carrousel">
                     <div id="carrousel">
                         <ul>
-                            <li><img src="<?php echo IMAGE_URL.'piece1.jpg'; ?>" width="300" height="300" /></li>
-                            <li><img src="<?php echo IMAGE_URL.'piece2.jpg'; ?>" width="300" height="300" /></li>
-                            <li><img src="<?php echo IMAGE_URL.'piece3.jpg'; ?>" width="300" height="300" /></li>
-                            <li><img src="<?php echo IMAGE_URL.'piece4.jpg'; ?>" width="300" height="300" /></li>
+                            <?php foreach($photosItem as $k => $v):?>
+                                <li><img src="<?php echo IMAGE_URL.$v->Nom_Photo; ?>" width="300" height="300" /></li>
+                            <?php endforeach;?>
                         </ul>
                         <div class="carousel-navigation">
                             <div class="carousel-prev">&#8592;</div>
@@ -50,6 +49,8 @@
             </div>
 
             <div class="col-8 column-height_zoom_article_1">
+                <form action="<?php echo BASE_URL.'/voyageur/comptes/Item_achat_immediat/'.$pseudo.','.$imgItem ?>" method="post">
+                </form>
                 <div class="section-column_zoom_article">
                     <h2> Nom article </h2>
                     <h6> Numéro d'identification </h6>

@@ -36,10 +36,9 @@
                 <div class="section-column_zoom_article_carrousel">
                     <div id="carrousel">
                         <ul>
-                            <li><img src="<?php echo IMAGE_URL.'piece1.jpg'; ?>" width="300" height="300" /></li>
-                            <li><img src="<?php echo IMAGE_URL.'piece2.jpg'; ?>" width="300" height="300" /></li>
-                            <li><img src="<?php echo IMAGE_URL.'piece3.jpg'; ?>" width="300" height="300" /></li>
-                            <li><img src="<?php echo IMAGE_URL.'piece4.jpg'; ?>" width="300" height="300" /></li>
+                            <?php foreach($photosItem as $k => $v):?>
+                                <li><img src="<?php echo IMAGE_URL.$v->Nom_Photo; ?>" width="300" height="300" /></li>
+                            <?php endforeach;?>
                         </ul>
                         <div class="carousel-navigation">
                             <div class="carousel-prev">&#8592;</div>
@@ -50,23 +49,24 @@
             </div>
 
             <div class="col-8 column-height_zoom_article_1">
-                <div class="section-column_zoom_article">
-                    <h2> Nom article </h2>
-                    <h6> Numéro d'identification </h6>
-                    <p> Description article </p> <br>
-                    <h4> Prix </h4> <br>
-                    <div class="proposer_prix">
-                        <form class="d-flex align-items-center">
-                            <div class="form-group d-flex">
-                                <input type="text" id="nouveau-prix" name="nouveau-prix" class="form-control" style="width: auto;" placeholder="Proposer un nouveau prix">
-                                <div class="txt_ecus"> <p class="ml-1 mb-0">écus</p> </div>
-                            </div>
-                        </form>
+                <form action="<?php echo BASE_URL.'/voyageur/comptes/Item_transaction/'.$pseudo.','.$imgItem ?>" method="post">
+                    <div class="section-column_zoom_article">
+                        <h2><?php echo $item->Nom ?></h2>
+                        <p><?php echo $item->Description ?></p> <br>
+                        <h4><?php echo $item->Prix ?> écus</h4> <br>
+                        <h4> Quantité restante : <?php echo ($item->Quantite_actuel)?></h4> <br>
+                        <div class="proposer_prix">
+                                <div class="form-group d-flex">
+                                    <input type="number" id="nouveau_prix" name="nouveau_prix" class="form-control" style="width: auto;" placeholder="Proposer un nouveau prix">
+                                    <div class="txt_ecus"> <p class="ml-1 mb-0">écus</p> </div>
+                                </div>
+                        </div>
                     </div>
-                </div>
-                <div class="section-column_ajoutpanier">
-                    <div class="boutton_ap"><button type="submit" class="btn btn-success custom-btn custom-black-btn">FAIRE UNE OFFRE</button> </div>
-                </div>
+                    <div class="section-column_ajoutpanier">
+                        <div class="boutton_ap"><button class="btn btn-success custom-btn custom-black-btn">AJOUTER AU PANIER</button> </div>
+                    </div>
+                </form>
+                <?php echo $this->Session->flash(); ?>
             </div>
         </div>
     </div>

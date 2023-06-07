@@ -39,93 +39,85 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-8 column-height_ap">
-                <div class="section-column2_ap">
-                    <div class="image-info-container_panier">
-                        <div class="image-container2_panier">
-                            <a href="zoom_article.html">
-                                <img src="<?php echo IMAGE_URL.'roberouge.jpg'; ?>" alt="Image">
-                            </a>
-                        </div>
-                        <div class="info-container_panier">
-                            <h5> Prix </h5>
-                            <div class="nom_article"> <p>
-                                    <a href="zoom_article.html">Nom article </a>
-                                </p> </div>
-                            <p> Description </p>
-                            <div class="quantity-container_panier">
-                                <label for="quantity"> <strong> Quantité </strong> </label>
-                                <select id="quantity" name="quantity">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
+        <div class="flex-row-reverse">
+            <form action="<?php echo BASE_URL.'/voyageur/comptes/panier/'.$pseudo ?>" method="post" onsubmit="return validateForm()">
+                <div class="col-md-8">
+                    <?php $i=0 ?>
+                    <?php foreach($achat_immediat as $k => $v):?>
+                        <div class="section-column2_ap">
+                            <div class="image-info-container_panier">
+                                <div class="image-container2_panier">
+                                    <a href="zoom_article.html">
+                                        <img src="<?php echo IMAGE_URL.$items[$i]->Photo; ?>" alt="Image">
+                                    </a>
+                                </div>
+                                <div class="info-container_panier">
+                                    <h5> <?php echo $items[$i]->Prix; ?> écus </h5>
+                                    <div class="nom_article"> <p>
+                                            <a href="#"><?php echo $items[$i]->Nom; ?> </a>
+                                        </p> </div>
+                                    <p> <?php echo $items[$i]->Description; ?> </p>
+                                    <select  name="<?php echo $i ?>">
+                                        <option value="-------">------</option>
+                                        <option value="acheter">acheter</option>
+                                        <option value="supprimer">supprimer</option>
+                                    </select>
+                                    <div class="quantity-container_panier">
+                                        <h5> <?php echo $v->Quantite; ?> </h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!-- on affiche la croix que si c'est un article "achat immédiat" sinon on peut pas le supp -->
-                        <div class="image-container_croix_panier">
-                            <img src="<?php echo IMAGE_URL.'croix.png'; ?>" alt="Image"> <!-- quand on clique dessus ça supp l'article du panier -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Structure d'un article à copier-coller -->
-                <div class="section-column2_ap">
-                    <div class="image-info-container_panier">
-                        <div class="image-container2_panier">
-                            <a href="zoom_article.html">
-                                <img src="<?php echo IMAGE_URL.'robeblancheantique.jpg'; ?>" alt="Image">
-                            </a>
-                        </div>
-                        <div class="info-container_panier">
-                            <h5> Prix </h5>
-                            <div class="nom_article"> <p> <a href="zoom_article.html">Nom article</a> </p> </div>
-                            <p> Description </p>
-                            <div class="quantity-container_panier">
-                                <label for="quantity"> <strong> Quantité </strong> </label>
-                                <select id="quantity" name="quantity">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
+                        <?php $i++ ?>
+                    <?php endforeach;?>
+                    <?php $i=0 ?>
+                    <?php foreach($negociations as $k => $v):?>
+                        <div class="section-column2_ap">
+                            <div class="image-info-container_panier">
+                                <div class="image-container2_panier">
+                                    <a href="zoom_article.html">
+                                        <img src="<?php echo IMAGE_URL.$items_nego[$i]->Photo; ?>" alt="Image">
+                                    </a>
+                                </div>
+                                <div class="info-container_panier">
+                                    <h5> Prix initial: <?php echo $items_nego[$i]->Prix; ?> écus                              Achat obligatoire si vendeur accepte</h5>
+                                    <div class="nom_article"> <p>
+                                            <a href="#"><?php echo $items_nego[$i]->Nom; ?> </a>
+                                        </p> </div>
+                                    <p> <?php echo $items_nego[$i]->Description; ?> </p>
+                                    <div class="quantity-container_panier">
+                                        <h5>Votre offre:  <?php echo $v->Nouveau_Prix; ?> </h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <?php $i++ ?>
+                    <?php endforeach;?>
                 </div>
-                <!-- jusqu'ici -->
-            </div>
 
-            <div class="col-4 column-height_ap3">
-                <div class="section-column_ap3">
-                    <h4> TOTAL </h4>
-                    <hr style="border-top: 1px solid #ccc;">
-                    <h5> Sous-total </h5>
-                    <h5> Livraison </h5> <br>
-                    <div class="boutton_ap"><button class="btn btn-success custom-btn">PAIEMENT</button> </div>
-                    <div class="p_ap"> <p> <strong>Nous acceptons :</strong> </p> </div>
-                    <div class="image-container_ap">
-                        <img src="<?php echo IMAGE_URL.'visa.png'; ?>" alt="Image 1">
-                        <img src="<?php echo IMAGE_URL.'mastercard.png'; ?>" alt="Image 2">
-                        <img src="<?php echo IMAGE_URL.'paypal.png'; ?>" alt="Image 3">
-                        <img src="<?php echo IMAGE_URL.'amex.png'; ?>" alt="Image 4">
+                <div class="col-md-4 float-right">
+                    <div class="section-column_ap3">
+                        <h4> TOTAL: <?php echo $total ?> écus</h4>
+                        <hr style="border-top: 1px solid #ccc;">
+                        <h5> Sous-total </h5>
+                        <h5> Livraison:  <?php echo $acheteur->Adresse.' '.$acheteur->Ville.' '.$acheteur->Code_Postal.', '.$acheteur->Pays ?></h5> <br>
+                        <select  name="paiement">
+                            <?php foreach($paiements as $k => $v): ?>
+                                <option value="<?php echo $v->Numero_Carte ?>"><?php echo $v->Numero_Carte ?></option>
+                            <?php endforeach;?>
+                        </select>
+                        <div class="boutton_ap"><button class="btn btn-success custom-btn">Appliquer</button> </div>
+                        <div class="p_ap"> <p> <strong>Nous acceptons :</strong> </p> </div>
+                        <div class="image-container_ap">
+                            <img src="<?php echo IMAGE_URL.'visa.png'; ?>" alt="Image 1">
+                            <img src="<?php echo IMAGE_URL.'mastercard.png'; ?>" alt="Image 2">
+                            <img src="<?php echo IMAGE_URL.'paypal.png'; ?>" alt="Image 3">
+                            <img src="<?php echo IMAGE_URL.'amex.png'; ?>" alt="Image 4">
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
+            <?php echo $this->Session->flash(); ?>
         </div>
     </div>
 </div>

@@ -70,27 +70,9 @@
         <div class="photo_paiement"><img src="<?php echo IMAGE_URL.'diamant.png'; ?>" alt="paiement" style="width: 100px;"></div>
         <div class="texte1_dev_reseaux_sociaux"><h3>AJOUTER UN MODE DE PAIEMENT</h3></div>
         <div class="infos_paiement">
-            <form id="paiement-form">
+            <form id="paiement-form" action="<?php echo BASE_URL.'/voyageur/comptes/compte_paiement/'.$pseudo ?>" method="post">
                 <div class="form-group_paiement">
                     <input type="text" id="nom" name="nom" class="form-control" style="width:auto;" placeholder="Nom">
-                </div>
-                <div class="form-group_paiement2">
-                    <input type="text" id="prenom" name="prenom" class="form-control"  style="width:auto;" placeholder="Prénom">
-                </div>
-                <div class="form-group_paiement2">
-                    <input type="text" id="adresse" name="adresse" class="form-control"  style="width:auto;" placeholder="Adresse">
-                </div>
-                <div class="form-group_paiement2">
-                    <input type="text" id="ville" name="ville" class="form-control"  style="width:auto;" placeholder="Ville">
-                </div>
-                <div class="form-group_paiement2">
-                    <input type="number" id="postal" name="postal" class="form-control"  style="width:auto;" placeholder="Code postal">
-                </div>
-                <div class="form-group_paiement2">
-                    <input type="text" id="pays" name="pays" class="form-control"  style="width:auto;" placeholder="Pays">
-                </div>
-                <div class="form-group_paiement2">
-                    <input type="tel" id="tel" name="tel" class="form-control"  style="width:auto;" placeholder="Numéro de téléphone">
                 </div>
                 <div class="form-group_paiement2">
                     <select id="carte" name="carte" class="form-control" style="width:auto;font-size: 12px; height: 24px; padding: 3px 6px; margin-top: 10px">
@@ -103,13 +85,14 @@
                     <input type="text" id="numcarte" name="numcarte" class="form-control"  style="width:auto;" placeholder="Numéro de carte">
                 </div>
                 <div class="form-group_paiement2">
-                    <input type="month" id="mois" name="mois" class="form-control"  style="width:auto;" placeholder="MM">
+                    <input type="number" id="cvv" name="cvv" class="form-control"  style="width:auto;" placeholder="CVV">
                 </div>
                 <div class="form-group_paiement2">
-                    <input type="number" id="cvv" name="cvv" class="form-control"  style="width:auto;" placeholder="CVV">
+                    <input type="number" id="solde" name="solde" class="form-control"  style="width:auto;" placeholder="solde banquaire">
                 </div>
                 <div class="boutton_ap"><button type="submit" class="btn btn-success custom-btn custom-black-btn" style="margin-top: 30px;">VALIDER</button> </div>
             </form>
+            <?php echo $this->Session->flash(); ?>
             <div id="error-message" style="display: none; color: red; margin-top: 10px;">Veuillez remplir tous les champs.</div>
         </div>
     </div>

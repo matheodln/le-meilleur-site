@@ -14,7 +14,7 @@ class ConnexionsController extends Controller{
             $this->redirect("/voyageur/comptes/accueil/".$user_Acheteur->Pseudo);
         }
         else if(!empty($user_Administrateur)){
-            $this->redirect("/gladiator/comptes/accueil/".$user_Administrateur->Pseudo);
+            $this->redirect("/gladiator/comptes/compte_informations/".$user_Administrateur->Pseudo);
         }
         else if(!empty($user_Vendeur)){
             $this->redirect("/marchand/comptes/accueil/".$user_Vendeur->Pseudo);
